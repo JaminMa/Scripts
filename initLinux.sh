@@ -56,7 +56,7 @@ git config --global user.email $email
 # SSH Key
 
 while true; do
-  read -p "Generate SSH key? (Y/n)" yn
+  read -p "Generate SSH key? (Y/n) " yn
   case $yn in
     [Yy]*|"")
       ssh-keygen
