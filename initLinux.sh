@@ -9,7 +9,7 @@ curl -LSs https://raw.githubusercontent.com/JaminMa/ConfigsForNewTerminals/maste
 
 # NVM
 echo "Installing Node Version Manager..."
-curl -LSs https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash > /dev/null
+curl -LSs https://raw.githubusercontent.com/nvm-sh/nvm/refs/heads/master/install.sh | bash > /dev/null
 
 # ------
 
