@@ -8,8 +8,50 @@ curl -LSs https://raw.githubusercontent.com/JaminMa/dotfiles/master/.bashrc >> ~
 # ------
 
 # NVM
-echo "Installing Node Version Manager..."
-curl -LSs https://raw.githubusercontent.com/nvm-sh/nvm/refs/heads/master/install.sh | bash > /dev/null
+echo "Checking if Node or NVM is already available..."
+node_installed=false
+nvm_installed=false
+
+if command -v node &> /dev/null; then
+    node_installed=true
+fi
+
+if command -v nvm &> /dev/null || [ -d "$HOME/.nvm" ] || [ -d "${NVM_DIR:-$HOME/.nvm}" ]; then
+    nvm_installed=true
+fi
+
+if [ "$node_installed" = true ] || [ "$nvm_installed" = true ]; then
+    echo "Found existing Node.js or NVM installation:"
+    if [ "$node_installed" = true ]; then
+        node_ver=$(node -v 2>/dev/null)
+        echo "  - Node.js is available ($node_ver)"
+    fi
+    if [ "$nvm_installed" = true ]; then
+        echo "  - NVM is available"
+    fi
+    
+    prompt_str="Install/overwrite Node Version Manager (NVM)? (y/N) "
+    default_choice="n"
+else
+    prompt_str="Install Node Version Manager (NVM)? (Y/n) "
+    default_choice="y"
+fi
+
+while true; do
+  read -p "$prompt_str" yn
+  [ -z "$yn" ] && yn="$default_choice"
+  case $yn in
+    [Yy]*)
+      echo "Installing Node Version Manager..."
+      curl -LSs https://raw.githubusercontent.com/nvm-sh/nvm/refs/heads/master/install.sh | PROFILE=~/.bashrc bash > /dev/null
+      break;;
+    [Nn]*)
+      echo "Skipping NVM installation."
+      break;;
+    *)
+      echo "Please enter yes or no.";;
+  esac
+done
 
 # ------
 
